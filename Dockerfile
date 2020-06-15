@@ -23,6 +23,6 @@ RUN apt-get update \
         && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
         
 RUN git clone https://github.com/filecoin-project/lotus.git \
-        && cd lotus/ && make clean && make all && make install \
+        && cd lotus/ && make clean && make all && make install
 
 CMD ["/bin/bash"]
