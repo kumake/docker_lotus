@@ -11,6 +11,7 @@ ENV LANG C.UTF-8
 WORKDIR /root
 VOLUME /root
 
+
 RUN apt-get update \
         && apt-get install -y  vim lrzsz curl net-tools inetutils-ping zip \
         && apt-get install -y  mesa-opencl-icd ocl-icd-opencl-dev software-properties-common \
@@ -21,8 +22,11 @@ RUN apt-get update \
         && apt-get clean \
         && apt-get autoclean \
         && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-        
-RUN git clone https://github.com/filecoin-project/lotus.git \
-        && cd lotus/ && make clean && make all && make install
+
+#使用swap增加内存编译go程序        
+RUN dd if=/dev/zero of=/root/swapfile bs=1M count=1024 && mkswap /root/swapfile && swapon /root/swapfile \
+        && git clone https://github.com/filecoin-project/lotus.git \
+        && cd lotus/ && make clean && make all && make install \
+        && swapoff /root/swapfile && rm -rf /root/swapfile
 
 CMD ["/bin/bash"]
