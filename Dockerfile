@@ -17,12 +17,12 @@ RUN apt-get update \
         && add-apt-repository ppa:longsleep/golang-backports -y \
         && apt update \
         && apt install -y golang-go gcc git bzr jq pkg-config mesa-opencl-icd ocl-icd-opencl-dev \
-        && git clone https://github.com/filecoin-project/lotus.git \
-        && cd lotus/ && make clean && make all && make install \
         # 用完包管理器后安排打扫卫生可以显著的减少镜像大小
         && apt-get clean \
         && apt-get autoclean \
         && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+        
+RUN git clone https://github.com/filecoin-project/lotus.git \
+        && cd lotus/ && make clean && make all && make install \
 
 CMD ["/bin/bash"]
