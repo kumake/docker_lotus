@@ -23,10 +23,9 @@ RUN apt-get update \
         && apt-get autoclean \
         && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-#使用swap增加内存编译go程序        
-RUN dd if=/dev/zero of=/root/swapfile bs=1M count=1024 && mkswap /root/swapfile && swapon /root/swapfile \
-        && git clone https://github.com/filecoin-project/lotus.git \
-        && cd lotus/ && make clean && make all && make install \
-        && swapoff /root/swapfile && rm -rf /root/swapfile
+#使用swap增加内存编译go程序
+#dd if=/dev/zero of=/root/swapfile bs=1M count=1024 && mkswap /root/swapfile && swapon /root/swapfile \
+#swapoff /root/swapfile && rm -rf /root/swapfile
+RUN cd lotus/ && make clean && make all && make install
 
 CMD ["/bin/bash"]
